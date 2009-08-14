@@ -5,10 +5,15 @@ class Page < ActiveRecord::Base
   named_scope :header_links, :conditions => ["show_in_header = ?", true], :order => 'position'
   named_scope :footer_links, :conditions => ["show_in_footer = ?", true], :order => 'position'
 
-
   def link
-    foreign_link.blank? ? "/pages/" + slug : foreign_link
+    if foreign_link.blank? 
+      (slug[0..0] == '/') ? slug : "/pages/" + slug 
+    else
+      foreign_link
+    end
   end
+  
+  alias :url :link
 
 private  
 
