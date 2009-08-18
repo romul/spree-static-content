@@ -8,17 +8,31 @@ class StaticContentExtension < Spree::Extension
 
   def activate
     
-    Admin::ConfigurationsController.class_eval do
-      before_filter :add_static_pages_links, :only => :index
-      
-      def add_static_pages_links
-        @extension_links << {
-          :link => admin_pages_path,
-          :link_text => t('ext_static_content_static_pages'),
-          :description => t('ext_static_content_static_pages_desc')
-        }
+    # add Pages tab
+    Admin::BaseController.class_eval do
+      before_filter :add_static_pages_tab
+
+      def add_static_pages_tab
+        # @extension_tabs << [ :pages, {
+         #                        :link => admin_pages_path,
+         #                        :link_text => t('ext_static_content_static_pages'),
+         #                        :description => t('ext_static_content_static_pages_desc')
+         #                      } ]
+          @extension_tabs <<  [ :pages ]
       end
     end
+    
+    # Admin::ConfigurationsController.class_eval do
+    #   before_filter :add_static_pages_links, :only => :index
+    #   
+    #   def add_static_pages_links
+    #     @extension_links << {
+    #       :link => admin_pages_path,
+    #       :link_text => t('ext_static_content_static_pages'),
+    #       :description => t('ext_static_content_static_pages_desc')
+    #     }
+    #   end
+    # end
 
     Spree::BaseController.class_eval do
       
@@ -35,8 +49,8 @@ class StaticContentExtension < Spree::Extension
         # for requests that get as far as content_controller. params[:path]
         # query left in for backwards compatibility for slugs that don't start
         # with a slash.
-        @page = Page.find_by_slug(params[:path])
-        @page = Page.find_by_slug(request.path) unless @page
+        @page = Page.visible.find_by_slug(params[:path])
+        @page = Page.visible.find_by_slug(request.path) unless @page
         render :template => 'content/show' if @page
       end
       
