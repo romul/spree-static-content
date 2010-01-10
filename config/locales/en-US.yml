@@ -1,5 +1,6 @@
 ---
 en-US:
+    pages: Pages
     ext_static_content_static_pages: Static pages
     ext_static_content_static_pages_desc: Manage static page with WYSIWYG editor.
     ext_static_content_title: Title
@@ -14,3 +15,6 @@ en-US:
     ext_static_content_visible: Visible
     ext_static_content_confirm_delete: Are you sure ?
     ext_static_content_link: Link
+    ext_static_content_meta_title: Meta Title
+    ext_static_content_meta_keywords: Meta Keywords
+    ext_static_content_meta_description: Meta Description
